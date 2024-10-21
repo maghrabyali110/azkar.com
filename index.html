@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع الأذكار ومواقيت الصلاة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom right, #f1f8e9, #a5d6a7);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #388e3c;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        section {
+            display: none;
+            margin-bottom: 50px;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        h2 {
+            color: #388e3c;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .counter {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .counter h3 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #388e3c;
+        }
+
+        button {
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2e7d32;
+        }
+
+        button.reset {
+            background-color: #d32f2f;
+        }
+
+        button.reset:hover {
+            background-color: #b71c1c;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #388e3c;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            margin-top: auto;
+            background-color: #388e3c;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .prayer-times {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        .prayer-times h3 {
+            color: #388e3c;
+        }
+
+        .prayer-times select {
+            width: 60%;
+        }
+
+        .prayer-times button {
+            background-color: #1565c0;
+        }
+
+        .prayer-times button:hover {
+            background-color: #0d47a1;
+        }
+
+        .reminder-message {
+            font-size: 1.5em;
+            color: #388e3c;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>موقع الأذكار ومواقيت الصلاة</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('tasbeeh')">التسبيح</a></li>
+                <li><a href="#" onclick="showSection('istighfar')">الاستغفار</a></li>
+                <li><a href="#" onclick="showSection('salawat')">الصلاة على النبي</a></li>
+                <li><a href="#" onclick="showSection('tahlil')">التهليل</a></li>
+                <li><a href="#" onclick="showSection('reminder')">التذكير بالأذكار</a></li>
+                <li><a href="#" onclick="showSection('prayer-times')">مواقيت الصلاة</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="tasbeeh">
+        <h2>التسبيح</h2>
+        <div class="counter">
+            <h3 id="tasbeeh-counter">0</h3>
+            <button id="tasbeeh-btn">سبح الآن</button>
+            <button class="reset" id="tasbeeh-reset">إعادة التعداد</button>
+        </div>
+    </section>
+
+    <section id="istighfar">
+        <h2>الاستغفار</h2>
+        <div class="counter">
+            <h3 id="istighfar-counter">0</h3>
+            <button id="istighfar-btn">استغفر الآن</button>
+            <button class="reset" id="istighfar-reset">إعادة التعداد</button>
+        </div>
+    </section>
+
+    <section id="salawat">
+        <h2>الصلاة على النبي</h2>
+        <div class="counter">
+            <h3 id="salawat-counter">0</h3>
+            <button id="salawat-btn">صلّ على النبي الآن</button>
+            <button class="reset" id="salawat-reset">إعادة التعداد</button>
+        </div>
+    </section>
+
+    <section id="tahlil">
+        <h2>التهليل</h2>
+        <div class="counter">
+            <h3 id="tahlil-counter">0</h3>
+            <button id="tahlil-btn">هلل الآن</button>
+            <button class="reset" id="tahlil-reset">إعادة التعداد</button>
+        </div>
+    </section>
+
+    <section id="reminder">
+        <h2>التذكير بالأذكار</h2>
+        <label for="reminder-interval">اختر توقيت التذكير:</label>
+        <select id="reminder-interval">
+            <option value="300000">كل 5 دقائق</option>
+            <option value="600000">كل 10 دقائق</option>
+            <option value="900000">كل 15 دقيقة</option>
+        </select>
+        <button id="start-reminder">ابدأ التذكير</button>
+        <p id="reminder-message"></p>
+    </section>
+
+    <section id="prayer-times">
+        <h2>مواقيت الصلاة</h2>
+        <div class="prayer-times">
+            <h3>اختر بلدك:</h3>
+            <select id="country">
+                <option value="egypt">مصر</option>
+                <option value="ksa">السعودية</option>
+                <option value="uae">الإمارات</option>
+                <option value="jordan">الأردن</option>
+            </select>
+            <button id="get-prayer-times">عرض مواقيت الصلاة</button>
+            <div id="prayer-times-display"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 maghrabyali. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // إظهار القسم المختار وإخفاء باقي الأقسام
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // تسبيح
+        let tasbeehCount = 0;
+        document.getElementById('tasbeeh-btn').addEventListener('click', () => {
+            tasbeehCount++;
+            document.getElementById('tasbeeh-counter').textContent = tasbeehCount;
+        });
+        document.getElementById('tasbeeh-reset').addEventListener('click', () => {
+            tasbeehCount = 0;
+            document.getElementById('tasbeeh-counter').textContent = tasbeehCount;
+        });
+
+        // استغفار
+        let istighfarCount = 0;
+        document.getElementById('istighfar-btn').addEventListener('click', () => {
+            istighfarCount++;
+            document.getElementById('istighfar-counter').textContent = istighfarCount;
+        });
+        document.getElementById('istighfar-reset').addEventListener('click', () => {
+            istighfarCount = 0;
+            document.getElementById('istighfar-counter').textContent = istighfarCount;
+        });
+
+        // صلاة على النبي
+        let salawatCount = 0;
+        document.getElementById('salawat-btn').addEventListener('click', () => {
+            salawatCount++;
+            document.getElementById('salawat-counter').textContent = salawatCount;
+        });
+        document.getElementById('salawat-reset').addEventListener('click', () => {
+            salawatCount = 0;
+            document.getElementById('salawat-counter').textContent = salawatCount;
+        });
+
+        // تذكير بالأذكار
+        let reminderInterval;
+        document.getElementById('start-reminder').addEventListener('click', () => {
+            const interval = document.getElementById('reminder-interval').value;
+            reminderInterval = setInterval(() => {
+                document.getElementById('reminder-message').textContent = "تذكر التسبيح!";
+                new Audio('notification.mp3').play(); // تنبيه صوتي
+            }, interval);
+        });
+
+        // مواقيت الصلاة
+        const prayerTimes = {
+            egypt: "الفجر: 5:00 AM، الظهر: 12:00 PM، العصر: 3:00 PM، المغرب: 5:45 PM، العشاء: 7:00 PM",
+            ksa: "الفجر: 4:50 AM، الظهر: 12:30 PM، العصر: 3:20 PM، المغرب: 5:45 PM، العشاء: 7:15 PM",
+            uae: "الفجر: 5:10 AM، الظهر: 12:15 PM، العصر: 3:30 PM، المغرب: 6:00 PM، العشاء: 7:30 PM",
+            jordan: "الفجر: 4:55 AM، الظهر: 12:10 PM، العصر: 3:10 PM، المغرب: 5:55 PM، العشاء: 7:00 PM"
+        };
+
+        document.getElementById('get-prayer-times').addEventListener('click', () => {
+            const country = document.getElementById('country').value;
+            document.getElementById('prayer-times-display').innerText = prayerTimes[country];
+        });
+    </script>
+</body>
+</html>
